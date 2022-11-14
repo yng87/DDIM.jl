@@ -4,6 +4,8 @@
 
 The implementation follows [the Keras example](https://keras.io/examples/generative/ddim/).
 
+![](output-96/generated_images_step/img_1.gif)
+![](output-96/generated_images_step/img_2.gif)
 # Example
 
 ## Dataset
@@ -30,6 +32,4 @@ $julia --project generate.jl \
     --output-dir ./output-96/generated_images_step
 ```
 
-![](output-96/generated_images_step/img_1.gif)
-![](output-96/generated_images_step/img_2.gif)
 
