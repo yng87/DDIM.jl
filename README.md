@@ -28,5 +28,4 @@ $julia --project generate.jl \
 
 ![](output-96/generated_images_step/img_1.gif)
 ![](output-96/generated_images_step/img_2.gif)
-![](output-96/generated_images_step/img_3.gif)
 
