@@ -28,6 +28,7 @@ $julia --project train.jl \
 $julia --project generate.jl \
     ./output-96/ckpt/checkpoint_25.bson \
     --image-size 96 \
+    --num-images 10 \
     --diffusion-steps 80 \
     --output-dir ./output-96/generated_images_step
 ```
