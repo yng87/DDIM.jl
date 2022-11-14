@@ -131,6 +131,7 @@ Main function
     learning_rate::Float64 = 1e-3,
     weight_decay::Float64 = 1e-4,
     val_diffusion_steps::Int = 3,
+    dataset_dir = "oxford_flowers_102/",
     output_dir::String = "./output",
     debug::Bool = false,
     # model hyper params
@@ -152,7 +153,7 @@ Main function
 
     println("Preparing dataset.")
     ds = OxfordFlowersDataset(
-        "oxford_flowers_102/",
+        dataset_dir,
         x -> preprocess_image(x, (image_size, image_size)),
         true,
     )

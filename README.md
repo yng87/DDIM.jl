@@ -4,7 +4,10 @@
 
 The implementation follows [the Keras example](https://keras.io/examples/generative/ddim/).
 
-# Example output
+# Example
+
+## Dataset
+Download `Dataset images` from [102 Category Flower Dataset](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/).
 
 
 ## Training
@@ -13,6 +16,7 @@ $julia --project train.jl \
     --epochs 25 \
     --image-size 96 \
     --val-diffusion-steps 80 \
+    --dataset_dir oxford_flowers_102
     --output-dir ./output-96
 ```
 
