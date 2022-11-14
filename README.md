@@ -18,7 +18,7 @@ $julia --project train.jl \
     --epochs 25 \
     --image-size 96 \
     --val-diffusion-steps 80 \
-    --dataset_dir oxford_flowers_102
+    --dataset-dir oxford_flowers_102
     --output-dir ./output-96
 ```
 
