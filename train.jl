@@ -48,7 +48,7 @@ function Base.getindex(ds::ImageDataset, i::Int)
 end
 
 
-function center_crop(image::Matrix{RGB{T}}) where {T<:AbstractFloat}
+function center_crop(image::Matrix{RGB{T}}) where {T<:Real}
     height, width = size(image)
     crop_size = min(height, width)
 
@@ -60,7 +60,7 @@ function center_crop(image::Matrix{RGB{T}}) where {T<:AbstractFloat}
     return image[y1:y2, x1:x2]
 end
 
-function resize(image::Matrix{RGB{T}}, image_size::Tuple{Int,Int}) where {T<:AbstractFloat}
+function resize(image::Matrix{RGB{T}}, image_size::Tuple{Int,Int}) where {T<:Real}
     # We perform anitaliasing before downsampling
     sigma = map((o, n) -> 0.75 * o / n, size(image), image_size)
     kern = KernelFactors.gaussian(sigma)
@@ -71,10 +71,7 @@ function resize(image::Matrix{RGB{T}}, image_size::Tuple{Int,Int}) where {T<:Abs
     )
 end
 
-function preprocess_image(
-    image::Matrix{RGB{T}},
-    image_size::Tuple{Int,Int},
-) where {T<:AbstractFloat}
+function preprocess_image(image::Matrix{RGB{T}}, image_size::Tuple{Int,Int}) where {T<:Real}
     image = center_crop(image)
     image = resize(image, image_size)
     return image
@@ -120,7 +117,7 @@ function save_as_png(images::AbstractArray{T,4}, output_dir, epoch) where {T<:Ab
     for i in axes(images, 4)
         img = @view images[:, :, :, i]
         img = colorview(RGB, permutedims(img, (3, 1, 2)))
-        save(joinpath(output_dir, @sprintf("img_%.3d_epoch_%.4d.png", i, epoch), img))
+        save(joinpath(output_dir, @sprintf("img_%.3d_epoch_%.4d.png", i, epoch)), img)
     end
 end
 
@@ -132,6 +129,7 @@ end
     weight_decay::Float64 = 1e-4,
     val_diffusion_steps::Int = 3,
     dataset_dir = "oxford_flowers_102/",
+    checkpoint_interval::Int = 5,
     output_dir::String = "output/train",
     # model hyper params
     channels::Vector{Int} = [32, 64, 96, 128],
@@ -212,7 +210,7 @@ end
         )
         generated_images = generated_images |> cpu
         save_as_png(generated_images, image_dir, epoch)
-        if epoch % 5 == 0
+        if epoch % checkpoint_interval == 0
             save_checkpoint(ps, st, opt_st, ckpt_dir, epoch)
         end
     end
