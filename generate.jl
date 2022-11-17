@@ -46,8 +46,8 @@ function save_as_gif(image_id::Int, images, output_dir)
     gif(anim, outpath, fps = 10)
 end
 
-@main function main(
-    checkpoint_path::String;
+@main function main(;
+    checkpoint::String,
     image_size::Int = 64,
     num_images::Int = 10,
     diffusion_steps::Int = 80,
@@ -83,7 +83,7 @@ end
         max_signal_rate = max_signal_rate,
     )
 
-    ps, st, _ = load_checkpoint(checkpoint_path) .|> gpu
+    ps, st, _ = load_checkpoint(checkpoint) .|> gpu
 
     println("Generate images.")
     st = Lux.testmode(st)

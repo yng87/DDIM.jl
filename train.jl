@@ -122,13 +122,13 @@ function save_as_png(images::AbstractArray{T,4}, output_dir, epoch) where {T<:Ab
 end
 
 @main function main(;
+    dataset_dir::String,
     epochs::Int = 1,
     image_size::Int = 64,
     batchsize::Int = 64,
     learning_rate::Float64 = 1e-3,
     weight_decay::Float64 = 1e-4,
     val_diffusion_steps::Int = 3,
-    dataset_dir = "oxford_flowers_102/",
     checkpoint_interval::Int = 5,
     output_dir::String = "output/train",
     # model hyper params
@@ -143,7 +143,7 @@ end
     rng = Random.Xoshiro()
     Random.seed!(rng, 1234)
 
-    image_dir = joinpath(output_dir, "generated-images-in-training")
+    image_dir = joinpath(output_dir, "images")
     ckpt_dir = joinpath(output_dir, "ckpt")
     mkpath(image_dir)
     mkpath(ckpt_dir)

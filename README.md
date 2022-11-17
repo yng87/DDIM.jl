@@ -15,13 +15,13 @@ Download `Dataset images` from [102 Category Flower Dataset](https://www.robots.
 ## Training
 ```bash
 $julia --project train.jl \
+    --dataset-dir oxford_flower_102 \ # path to dataset
     --epochs 25 \
     --image-size 96 \
     --batchsize 64 \
     --learning-rate 1e-3 \
     --weight-decay 1e-4 \
     --val-diffusion-steps 80 \
-    --dataset-dir oxford_flower_102 \ # path to dataset
     --output-dir output/train # path to save checkpoint and images
 ```
 You can also change model hyper parameters. See `main` function in `train.jl`.
@@ -29,7 +29,7 @@ You can also change model hyper parameters. See `main` function in `train.jl`.
 ## Image generation
 ```bash
 $julia --project generate.jl \
-    ./output/ckpt/checkpoint_25.bson \ # path to checkpoint
+    --checkpoint output/ckpt/checkpoint_25.bson \ # path to checkpoint
     --image-size 96 \
     --num-images 10 \
     --diffusion-steps 80 \
