@@ -1,4 +1,13 @@
-using Lux, Random, Images, Optimisers, ProgressBars, CUDA, BSON, Plots, Comonicon
+using Lux
+using Random
+using Images
+using Optimisers
+using ProgressBars
+using CUDA
+using BSON
+using Plots
+using Comonicon
+using Printf
 
 # https://discourse.julialang.org/t/deactivate-plot-display-to-avoid-need-for-x-server/19359
 ENV["GKSwstype"] = "nul"
@@ -10,7 +19,10 @@ function load_checkpoint(path)
     d[:ps], d[:st], d[:opt_st]
 end
 
-function save_as_gif(images_each_step::Vector{<:AbstractArray{T,4}}, output_dir) where {T}
+function save_as_gif(
+    images_each_step::Vector{<:AbstractArray{T,4}},
+    output_dir,
+) where {T<:AbstractFloat}
     num_images = size(images_each_step[1], 4)
 
     for image_id in ProgressBar(1:num_images)
@@ -20,7 +32,7 @@ function save_as_gif(images_each_step::Vector{<:AbstractArray{T,4}}, output_dir)
 end
 
 function save_as_gif(image_id::Int, images, output_dir)
-    outpath = joinpath(output_dir, "img_$(image_id).gif")
+    outpath = joinpath(output_dir, @sprintf("img_%.3d.gif", image_id))
     anim = @animate for (step, img) in enumerate(images)
         img = colorview(RGB, permutedims(img, (3, 1, 2)))
         plot(
@@ -39,7 +51,7 @@ end
     image_size::Int = 64,
     num_images::Int = 10,
     diffusion_steps::Int = 80,
-    output_dir::String = "./output/generated_images_steps",
+    output_dir::String = "./output/generated-reverse-diffusion",
     channels::Vector{Int} = [32, 64, 96, 128],
     block_depth::Int = 2,
     min_freq::Float32 = 1.0f0,
@@ -48,27 +60,29 @@ end
     min_signal_rate::Float32 = 0.02f0,
     max_signal_rate::Float32 = 0.95f0,
 )
-    rng = Random.MersenneTwister()
+    rng = Random.Xoshiro()
     Random.seed!(rng, 1234)
 
     mkpath(output_dir)
 
-    ddim =
-        DenoisingDiffusionImplicitModel(
-            (image_size, image_size),
-            channels = channels,
-            block_depth = block_depth,
-            min_freq = min_freq,
-            max_freq = max_freq,
-            embedding_dims = embedding_dims,
-            min_signal_rate = min_signal_rate,
-            max_signal_rate = max_signal_rate,
-        ) |> gpu
+    if CUDA.functional()
+        println("GPU is available.")
+    else
+        println("GPU is not available.")
+    end
 
-    ps, st, _ = load_checkpoint(checkpoint_path)
+    ddim = DenoisingDiffusionImplicitModel(
+        (image_size, image_size),
+        channels = channels,
+        block_depth = block_depth,
+        min_freq = min_freq,
+        max_freq = max_freq,
+        embedding_dims = embedding_dims,
+        min_signal_rate = min_signal_rate,
+        max_signal_rate = max_signal_rate,
+    )
 
-    ps = ps |> gpu
-    st = st |> gpu
+    ps, st, _ = load_checkpoint(checkpoint_path) .|> gpu
 
     println("Generate images.")
     st = Lux.testmode(st)
