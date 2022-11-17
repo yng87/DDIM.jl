@@ -132,7 +132,7 @@ end
     weight_decay::Float64 = 1e-4,
     val_diffusion_steps::Int = 3,
     dataset_dir = "oxford_flowers_102/",
-    output_dir::String = "./output",
+    output_dir::String = "output/train",
     # model hyper params
     channels::Vector{Int} = [32, 64, 96, 128],
     block_depth::Int = 2,
