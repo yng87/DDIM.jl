@@ -4,8 +4,8 @@
 
 The implementation follows [the Keras example](https://keras.io/examples/generative/ddim/).
 
-![](output-96/generated_images_step/img_1.gif)
-![](output-96/generated_images_step/img_2.gif)
+![](output-96/generated_images_step/img_001.gif)
+![](output-96/generated_images_step/img_002.gif)
 # Usage
 
 ## Dataset
