@@ -4,18 +4,21 @@
 
 The implementation follows [the Keras example](https://keras.io/examples/generative/ddim/).
 
-![](output/generate/img_001.gif)
-![](output/generate/img_002.gif)
+The model generates images from Gaussian noises by <em>denoising</em> iteratively.
+![](output/generate/img_004.gif)
+![](output/generate/img_005.gif)
 # Usage
+Install Julia and instantiate `Project.tom`.
 
+Follwoing scripts are tested on a single NVIDIA Tesla T4 instance.
 ## Dataset
-Download `Dataset images` from [102 Category Flower Dataset](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/).
+Download and extract `Dataset images` from [102 Category Flower Dataset](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/).
 
 
 ## Training
 ```bash
 $julia --project train.jl \
-    --dataset-dir oxford_flower_102 \ # path to dataset
+    --dataset-dir oxford_flower_102 \ # path to dataset directory containing image files
     --epochs 25 \
     --image-size 96 \
     --batchsize 64 \
