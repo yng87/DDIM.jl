@@ -8,7 +8,7 @@ The model generates images from Gaussian noises by <em>denoising</em> iterativel
 ![](output/generate/img_004.gif)
 ![](output/generate/img_005.gif)
 # Usage
-Install Julia and instantiate `Project.tom`.
+Install Julia and instantiate `Project.toml`.
 
 Follwoing scripts are tested on a single NVIDIA Tesla T4 instance.
 ## Dataset
