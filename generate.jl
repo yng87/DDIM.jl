@@ -52,6 +52,7 @@ end
     num_images::Int = 10,
     diffusion_steps::Int = 80,
     output_dir::String = "./output/generated-reverse-diffusion",
+    # model hyper params
     channels::Vector{Int} = [32, 64, 96, 128],
     block_depth::Int = 2,
     min_freq::Float32 = 1.0f0,

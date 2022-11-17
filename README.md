@@ -6,7 +6,7 @@ The implementation follows [the Keras example](https://keras.io/examples/generat
 
 ![](output-96/generated_images_step/img_1.gif)
 ![](output-96/generated_images_step/img_2.gif)
-# Example
+# Usage
 
 ## Dataset
 Download `Dataset images` from [102 Category Flower Dataset](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/).
@@ -17,20 +17,23 @@ Download `Dataset images` from [102 Category Flower Dataset](https://www.robots.
 $julia --project train.jl \
     --epochs 25 \
     --image-size 96 \
+    --batchsize 64 \
+    --learning-rate 1e-3 \
+    --weight-decay 1e-4 \
     --val-diffusion-steps 80 \
-    --dataset-dir oxford_flowers_102
-    --output-dir ./output-96
+    --dataset-dir oxford_flower_102 \ # path to dataset
+    --output-dir output/train # path to save checkpoint and images
 ```
+You can also change model hyper parameters. See `main` function in `train.jl`.
 
 ## Image generation
-
 ```bash
 $julia --project generate.jl \
-    ./output-96/ckpt/checkpoint_25.bson \
+    ./output/ckpt/checkpoint_25.bson \ # path to checkpoint
     --image-size 96 \
     --num-images 10 \
     --diffusion-steps 80 \
-    --output-dir ./output-96/generated_images_step
+    --output-dir output/generate # path to save images
 ```
-
-
+You can also change model hyper parameters. See `main` function in `generate.jl`.
+The hyper parameters should be the same during training and generation.
