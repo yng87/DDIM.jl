@@ -1,5 +1,7 @@
 # DDIM.jl
 
+This repository is now merged into [Lux.jl examples](https://github.com/avik-pal/Lux.jl/tree/main/examples/DDIM).
+
 [Lux.jl](https://github.com/avik-pal/Lux.jl) implementation of Denoising Diffusion Implicit Models ([arXiv:2010.02502](https://arxiv.org/abs/2010.02502)).
 
 The implementation follows [the Keras example](https://keras.io/examples/generative/ddim/).
